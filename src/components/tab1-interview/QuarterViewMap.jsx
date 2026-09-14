@@ -7,14 +7,16 @@ import ChatPanel from './ChatPanel.jsx';
 const STEP = 3.5;
 const TALK_DISTANCE = 11;
 
+// 중앙 십자 도로(가로 y 45~63, 세로 x 46~58)를 비워 두고
+// 건물은 잔디 구역에, NPC는 각 건물 출입구 쪽에 서도록 배치한다.
 const NPC_PLACES = [
   { x: 17, y: 29, building: '주민센터', color: '#5472c8', roof: '#8299de', palette: { shirt: '#f2c84b', pants: '#3a5688' } },
-  { x: 42, y: 22, building: '시청', color: '#5b73be', roof: '#91a5e0', palette: { shirt: '#5d7cdb', pants: '#293e67' } },
+  { x: 38, y: 22, building: '시청', color: '#5b73be', roof: '#91a5e0', palette: { shirt: '#5d7cdb', pants: '#293e67' } },
   { x: 75, y: 27, building: '경찰서', color: '#507fbe', roof: '#7ca8dc', palette: { shirt: '#83aef0', pants: '#263e6d', accent: '#f5d34d' } },
-  { x: 85, y: 55, building: '소방서', color: '#df5b4d', roof: '#f08a77', palette: { shirt: '#e75946', pants: '#433b48', accent: '#ffd159' } },
-  { x: 69, y: 78, building: '보건소', color: '#54aa7a', roof: '#82c99e', palette: { shirt: '#f1f6f2', pants: '#4a8770', accent: '#e85658' } },
-  { x: 39, y: 78, building: '우체국', color: '#db5b55', roof: '#ed8b83', palette: { shirt: '#de5a50', pants: '#354a69', accent: '#f6df60' } },
-  { x: 13, y: 64, building: '도서관', color: '#9c7657', roof: '#c99e76', palette: { shirt: '#7eb39a', pants: '#4c536c', accent: '#fff4c7' } },
+  { x: 85, y: 40, building: '소방서', color: '#df5b4d', roof: '#f08a77', palette: { shirt: '#e75946', pants: '#433b48', accent: '#ffd159' } },
+  { x: 69, y: 84, building: '보건소', color: '#54aa7a', roof: '#82c99e', palette: { shirt: '#f1f6f2', pants: '#4a8770', accent: '#e85658' } },
+  { x: 39, y: 85, building: '우체국', color: '#db5b55', roof: '#ed8b83', palette: { shirt: '#de5a50', pants: '#354a69', accent: '#f6df60' } },
+  { x: 13, y: 84, building: '도서관', color: '#9c7657', roof: '#c99e76', palette: { shirt: '#7eb39a', pants: '#4c536c', accent: '#fff4c7' } },
 ];
 
 const PLAYER_PALETTE = {
