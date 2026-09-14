@@ -113,6 +113,8 @@ src/
 - [x] 태블릿(768px)·모바일(375px) 레이아웃 확인 — 4개 탭 모두 가로 넘침 없음, 좁은 화면 채팅 헤더 줄바꿈 보완
 - [x] 빌드 → **오프라인(file://) 동작 확인** — headless Edge로 실제 렌더링 검증 완료
 - [x] 학생용 배포 방법: **단일 HTML 파일** 로 확정 (아래 참고)
+- [x] GitHub Pages 배포 설정 — `.github/workflows/deploy.yml` (main 푸시 시 자동 빌드·배포)
+      주소: https://goranipark.github.io/interview/
 
 #### 빌드 방식 변경 (중요)
 기존 방식(JS·CSS를 별도 파일로 분리)으로 빌드한 `index.html`은 더블클릭(file://)으로 열면
