@@ -78,10 +78,22 @@ export default function VoxelScene({ player, npcs, nearby, walking, onNpcClick, 
         }}>
         <ellipse cx={at.x} cy={at.y} rx="23" ry="11" fill={isNear ? '#ffe591' : '#ffffff66'} />
         <Person point={npc.npc} color={npc.color} />
-        <rect className="town-officer__label" x={at.x - 40} y={at.y + 12} width="80" height="23" rx="8" fill={isNear ? '#316d57' : '#344962'} />
-        <text x={at.x} y={at.y + 28} textAnchor="middle" fill="white" fontSize="11" fontWeight="700">{completed(npc) ? '✓ ' : ''}{npc.institution.officer.name}</text>
-        {isNear && <g><rect x={at.x - 38} y={at.y - 89} width="76" height="22" rx="11" fill="#fff5ce" /><text x={at.x} y={at.y - 74} textAnchor="middle" fontSize="11" fill="#684a19" fontWeight="800">대화 · Enter</text></g>}
+        <rect x={at.x - 50} y={at.y + 12} width="100" height="30" fill="transparent" />
       </g>;
     })}
+    {/* Labels are drawn after all world objects so characters cannot cover names. */}
+    <g className="town-labels" pointerEvents="none" aria-hidden="true">
+      {npcs.map((npc) => {
+        const at = project(npc.npc);
+        const isNear = nearby?.institution.id === npc.institution.id;
+        const name = `${completed(npc) ? '✓ ' : ''}${npc.institution.officer.name}`;
+        const width = Math.max(100, [...name].length * 15 + 28);
+        return <g key={npc.institution.id}>
+          <rect className="town-officer__label" x={at.x - width / 2} y={at.y + 12} width={width} height="30" rx="10" fill={isNear ? '#316d57' : '#344962'} stroke="#fffdf0" strokeWidth="1.5" />
+          <text x={at.x} y={at.y + 32} textAnchor="middle" fill="white" fontSize="14" fontWeight="700">{name}</text>
+          {isNear && <g><rect x={at.x - 44} y={at.y - 91} width="88" height="25" rx="12" fill="#fff5ce" /><text x={at.x} y={at.y - 74} textAnchor="middle" fontSize="12" fill="#684a19" fontWeight="800">대화 · Enter</text></g>}
+        </g>;
+      })}
+    </g>
   </svg>;
 }

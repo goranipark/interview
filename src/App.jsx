@@ -13,7 +13,7 @@ export default function App() {
     <div className="app">
       <Header activeTab={tab} onTabChange={setTab} />
 
-      <main className="main">
+      <main className={`main ${tab === 'interview' ? 'main--interview' : ''}`}>
         {tab === 'interview' && <InterviewTab />}
         {tab === 'worksheet' && <WorksheetAccordion />}
         {tab === 'quiz' && <QuizTab />}

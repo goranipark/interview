@@ -123,6 +123,8 @@
   padding: var(--space-5);
 }
 
+.main--interview { max-width: 1480px; }
+
 .panel-placeholder {
   background: var(--c-surface);
   border: 1px dashed var(--c-border);

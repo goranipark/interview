@@ -43,7 +43,10 @@ export default function QuarterViewMap() {
     const viewport = viewportRef.current;
     function follow() {
       const scene = viewport.querySelector('svg');
-      viewport.scrollLeft = project(player).x * scene.clientWidth / 1040 - viewport.clientWidth / 2;
+      const playerX = project(player).x;
+      const officer = nearbyRef.current;
+      const centerX = officer ? (playerX + project(officer.npc).x) / 2 : playerX;
+      viewport.scrollLeft = centerX * scene.clientWidth / 1040 - viewport.clientWidth / 2;
     }
     follow();
     const observer = new ResizeObserver(follow);
@@ -179,6 +182,7 @@ export default function QuarterViewMap() {
         <div className="town-viewport" ref={viewportRef}><VoxelScene player={player} npcs={npcs} nearby={nearby} walking={walking}
           onNpcClick={handleNpcClick} completed={(npc) => isCompleted(state, npc.institution.id)} /></div>
 
+        <div className="town-map__controls">
         <div className={`encounter-hint ${nearby ? 'encounter-hint--active' : ''}`}>
           <span aria-hidden="true">{nearby ? '💬' : '🧭'}</span>
           <span role="status" aria-live="polite">{hint}</span>
@@ -194,6 +198,7 @@ export default function QuarterViewMap() {
           <button className="move-pad__left" onClick={() => move(-STEP, STEP)} aria-label="왼쪽으로 이동">◀</button>
           <button className="move-pad__down" onClick={() => move(STEP, STEP)} aria-label="아래로 이동">▼</button>
           <button className="move-pad__right" onClick={() => move(STEP, -STEP)} aria-label="오른쪽으로 이동">▶</button>
+        </div>
         </div>
       </div>
 
