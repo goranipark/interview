@@ -245,7 +245,7 @@
   margin-top: var(--space-3);
   background: var(--c-warning);
   border: none;
-  color: #fff;
+  color: var(--c-warning-text);
   border-radius: var(--radius-sm);
   padding: 9px 16px;
   font-weight: 700;
@@ -253,6 +253,7 @@
 
 .quiz__gocard:hover {
   background: #E09612;
+  color: var(--c-warning-text);
 }
 
 /* ---------- 이동 버튼 ---------- */

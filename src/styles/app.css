@@ -78,7 +78,7 @@
 }
 
 .header__count {
-  background: var(--c-accent);
+  background: var(--c-accent-dark);
   border-radius: 999px;
   padding: 4px 12px;
   font-size: var(--fs-sm);

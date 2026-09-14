@@ -6,12 +6,14 @@
   --c-primary-dark: #143a68;
   --c-grad-start: #4C6FE0;       /* 헤더 그라디언트 시작 */
   --c-grad-end: #7B5CF0;         /* 헤더 그라디언트 끝 */
-  --c-accent: #2FA84F;           /* 완료/성공 */
+  --c-accent: #2FA84F;           /* 완료/성공 — 테두리·진행바 등 장식용 */
+  --c-accent-dark: #1F7034;      /* 위 초록 위에 글자를 얹거나, 초록 배경에 흰 글자를 쓸 때 (WCAG AA) */
   --c-warning: #F5A623;          /* 추천 질문·스크랩 등 행동 유도 */
+  --c-warning-text: #3D2B00;     /* 주황 배경 위 글자색 — 흰 글자는 대비 2.03:1로 기준 미달 */
   --c-warning-bg: #FFF8E1;       /* 안내 배너 배경 */
 
   --c-text: #333333;
-  --c-text-sub: #767676;
+  --c-text-sub: #6B6B6B;
   --c-surface: #FFFFFF;          /* 카드 배경 */
   --c-bg: #F4F6FA;               /* 전체 배경 */
   --c-border: #E3E7EF;

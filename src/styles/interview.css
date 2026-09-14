@@ -234,19 +234,19 @@
 .chip-btn--scrap {
   background: var(--c-warning);
   border-color: var(--c-warning);
-  color: #fff;
+  color: var(--c-warning-text);
 }
 
 .chip-btn--scrap:hover {
   background: #E09612;
   border-color: #E09612;
-  color: #fff;
+  color: var(--c-warning-text);
 }
 
 .chip-btn--done {
   background: #EAF7EE;
   border-color: var(--c-accent);
-  color: var(--c-accent);
+  color: var(--c-accent-dark);
   cursor: default;
 }
 
@@ -321,7 +321,7 @@
 
 .suggest-chip:hover {
   background: var(--c-warning);
-  color: #fff;
+  color: var(--c-warning-text);
 }
 
 /* ---------- 반응형 (학교 태블릿 고려) ---------- */
@@ -348,5 +348,30 @@
   }
   .chat__log {
     height: 60vh;
+  }
+}
+
+/* 휴대폰 폭에서는 담당관 헤더가 눌리지 않도록 줄을 나눔 */
+@media (max-width: 620px) {
+  .chat__header {
+    flex-wrap: wrap;
+  }
+  .chat__who {
+    flex: 1;
+    min-width: 0;
+  }
+  .chat__reset {
+    margin-left: 0;
+    width: 100%;
+    order: 3;
+  }
+  .chat__form {
+    flex-wrap: wrap;
+  }
+  .chat__input {
+    flex: 1 1 100%;
+  }
+  .chat__send {
+    flex: 1;
   }
 }
