@@ -1,0 +1,352 @@
+/* 탭 1 — 면담하기 (design.md 4장 와이어프레임) */
+
+.interview-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* 그리드 칸이 내용 폭에 밀려 페이지 전체가 가로로 넘치지 않도록 */
+.interview-layout > * {
+  min-width: 0;
+}
+
+/* ---------- 좌측: 기관 리스트 ---------- */
+.inst-list {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+}
+
+.inst-list__title {
+  font-size: var(--fs-lg);
+  margin: 0 0 var(--space-3);
+  color: var(--c-primary);
+}
+
+.inst-list__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.inst-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 10px;
+  text-align: left;
+}
+
+.inst-item:hover {
+  background: #F0F4FC;
+}
+
+.inst-item--active {
+  background: #EAF0FD;
+  border-color: var(--c-primary);
+}
+
+.inst-item__icon {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  /* 배경색은 기관별 아이덴티티 컬러(인라인 지정) */
+}
+
+.inst-item__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+  min-width: 0;
+}
+
+.inst-item__name {
+  font-weight: 700;
+  font-size: var(--fs-body);
+}
+
+.inst-item__officer {
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+}
+
+.inst-item__done {
+  margin-left: auto;
+  font-size: 16px;
+}
+
+/* ---------- 우측: 채팅 ---------- */
+.chat {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--c-border);
+  background: #FAFBFE;
+}
+
+.chat__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+}
+
+.chat__who {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.chat__officer {
+  font-size: var(--fs-lg);
+  color: var(--c-primary);
+}
+
+.chat__inst {
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+}
+
+.chat__reset {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text-sub);
+  padding: 6px 10px;
+  font-size: var(--fs-sm);
+}
+
+.chat__reset:hover {
+  background: #fff;
+  color: var(--c-text);
+}
+
+.chat__log {
+  height: 420px;
+  overflow-y: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: #F8FAFF;
+}
+
+/* ---------- 말풍선 ---------- */
+.bubble-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+.bubble-row--student {
+  justify-content: flex-end;
+}
+
+.bubble__avatar {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--c-border);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+
+.bubble-group {
+  max-width: 74%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.bubble {
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  line-height: var(--lh-body);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.bubble--officer {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-top-left-radius: 4px;
+}
+
+.bubble--student {
+  background: var(--c-primary);
+  color: #fff;
+  border-top-right-radius: 4px;
+  max-width: 74%;
+}
+
+.bubble__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.chip-btn {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  color: var(--c-text-sub);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.chip-btn:hover:not(:disabled) {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+}
+
+.chip-btn--scrap {
+  background: var(--c-warning);
+  border-color: var(--c-warning);
+  color: #fff;
+}
+
+.chip-btn--scrap:hover {
+  background: #E09612;
+  border-color: #E09612;
+  color: #fff;
+}
+
+.chip-btn--done {
+  background: #EAF7EE;
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  cursor: default;
+}
+
+.bubble__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---------- 입력 & 추천 질문 ---------- */
+.chat__form {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-top: 1px solid var(--c-border);
+}
+
+.chat__input {
+  flex: 1;
+  border: 2px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+
+.chat__input:focus {
+  border-color: var(--c-primary);
+  outline: none;
+}
+
+.chat__send {
+  background: var(--c-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  font-weight: 700;
+}
+
+.chat__send:hover:not(:disabled) {
+  background: var(--c-primary-dark);
+}
+
+.chat__send:disabled {
+  background: #B9C4D6;
+  cursor: not-allowed;
+}
+
+.chat__suggests {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.chat__suggests-label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--c-text-sub);
+}
+
+.suggest-chip {
+  background: #FFF6E4;
+  border: 1px solid var(--c-warning);
+  color: #8A5A00;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-align: left;
+}
+
+.suggest-chip:hover {
+  background: var(--c-warning);
+  color: #fff;
+}
+
+/* ---------- 반응형 (학교 태블릿 고려) ---------- */
+@media (max-width: 900px) {
+  .interview-layout {
+    grid-template-columns: 1fr;
+  }
+  .inst-list__items {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+  }
+  .inst-item {
+    width: auto;
+    flex: none;
+    white-space: nowrap; /* 가로 스크롤 줄에서 기관 이름이 세로로 쪼개지지 않도록 */
+  }
+  .inst-item__officer {
+    display: none;
+  }
+  .bubble-group,
+  .bubble--student {
+    max-width: 86%;
+  }
+  .chat__log {
+    height: 60vh;
+  }
+}

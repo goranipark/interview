@@ -1,0 +1,220 @@
+/* 탭 2 — 학습지 작성 (기관별 아코디언) */
+
+.worksheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.ws-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.ws-card--empty {
+  background: #F7F8FB;
+  box-shadow: none;
+}
+
+.ws-card__headwrap {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.ws-card__head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: transparent;
+  border: none;
+  padding: var(--space-4);
+  text-align: left;
+}
+
+.ws-card__head:hover:not(:disabled) {
+  background: #F4F7FD;
+}
+
+.ws-card__head:disabled {
+  cursor: default;
+}
+
+.ws-card__icon {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.ws-card__name {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+}
+
+.ws-card--empty .ws-card__name {
+  color: var(--c-text-sub);
+}
+
+.ws-card__count {
+  margin-left: auto;
+  background: #EAF7EE;
+  color: var(--c-accent);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+.ws-card__todo {
+  margin-left: auto;
+  color: var(--c-text-sub);
+  font-size: var(--fs-sm);
+}
+
+.ws-card__arrow {
+  color: var(--c-text-sub);
+  font-size: var(--fs-lg);
+}
+
+.ws-card__body {
+  padding: 0 var(--space-4) var(--space-4);
+  border-top: 1px solid var(--c-border);
+}
+
+/* ---------- 스크랩한 Q&A 목록 ---------- */
+.ws-qa {
+  list-style: none;
+  margin: var(--space-4) 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  counter-reset: none;
+}
+
+.ws-qa__item {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  background: #FBFCFF;
+  position: relative;
+}
+
+.ws-qa__q,
+.ws-qa__a {
+  display: block;
+  line-height: var(--lh-body);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.ws-qa__q {
+  font-weight: 700;
+  color: var(--c-primary);
+  padding-right: 70px; /* 지우기 버튼 자리 */
+}
+
+.ws-qa__a {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--c-border);
+}
+
+.ws-qa__label {
+  display: inline-block;
+  background: var(--c-primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  margin-right: var(--space-2);
+  vertical-align: 2px;
+}
+
+.ws-qa__label--a {
+  background: var(--c-text-sub);
+}
+
+.ws-qa__remove {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text-sub);
+  font-size: 12px;
+  padding: 3px 8px;
+}
+
+.ws-qa__remove:hover {
+  border-color: #D93B30;
+  color: #D93B30;
+}
+
+/* ---------- 내 생각 적어보기 ---------- */
+.ws-reflect {
+  display: block;
+  background: var(--c-warning-bg);
+  border: 1px solid #F0DFA8;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+.ws-reflect__label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.ws-reflect__label em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--c-text-sub);
+  font-size: var(--fs-sm);
+}
+
+.ws-reflect__input {
+  width: 100%;
+  border: 2px solid #EBDCB0;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  line-height: var(--lh-body);
+  resize: vertical;
+  background: #fff;
+}
+
+.ws-reflect__input:focus {
+  border-color: var(--c-warning);
+  outline: none;
+}
+
+.ws-reflect__hint {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--fs-sm);
+  color: var(--c-text-sub);
+}
+
+@media (max-width: 700px) {
+  .ws-card__count,
+  .ws-card__todo {
+    font-size: 12px;
+  }
+  .ws-qa__q {
+    padding-right: 0;
+  }
+  .ws-qa__remove {
+    position: static;
+    margin-top: var(--space-2);
+  }
+}

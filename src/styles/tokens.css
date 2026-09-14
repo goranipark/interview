@@ -1,0 +1,90 @@
+/* design.md 1~2장(색상 팔레트 · 타이포그래피)을 CSS 변수로 정리한 파일 */
+
+:root {
+  /* --- 색상 --- */
+  --c-primary: #1B4D89;          /* 정부 상징 진한 파랑 계열 */
+  --c-primary-dark: #143a68;
+  --c-grad-start: #4C6FE0;       /* 헤더 그라디언트 시작 */
+  --c-grad-end: #7B5CF0;         /* 헤더 그라디언트 끝 */
+  --c-accent: #2FA84F;           /* 완료/성공 */
+  --c-warning: #F5A623;          /* 추천 질문·스크랩 등 행동 유도 */
+  --c-warning-bg: #FFF8E1;       /* 안내 배너 배경 */
+
+  --c-text: #333333;
+  --c-text-sub: #767676;
+  --c-surface: #FFFFFF;          /* 카드 배경 */
+  --c-bg: #F4F6FA;               /* 전체 배경 */
+  --c-border: #E3E7EF;
+
+  /* 기관별 아이덴티티 색 (아이콘 배지 전용) */
+  --c-inst-community-center: #2C3E70;
+  --c-inst-city-hall: #1B6FC2;
+  --c-inst-police: #1F3A93;
+  --c-inst-fire: #D93B30;
+  --c-inst-health-center: #2FA84F;
+  --c-inst-post-office: #D6332B;
+  --c-inst-library: #8B5E3C;
+
+  /* --- 타이포그래피 (초등 대상이라 일반 정부 사이트보다 한 단계 크게) --- */
+  --font-sans: Pretendard, 'Pretendard Variable', 'Noto Sans KR', '나눔고딕',
+    NanumGothic, 'Malgun Gothic', '맑은 고딕', system-ui, sans-serif;
+  --fs-body: 16px;
+  --fs-sm: 14px;
+  --fs-lg: 18px;
+  --fs-h2: 22px;
+  --fs-h1: 24px;
+  --lh-body: 1.65;
+
+  /* --- 모양 --- */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --shadow-card: 0 2px 8px rgba(27, 77, 137, 0.08);
+  --shadow-pop: 0 6px 20px rgba(27, 77, 137, 0.16);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+}
+
+/* --- 전역 리셋 & 기본 타이포 --- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 키보드 사용자용 포커스 표시 (접근성) */
+:focus-visible {
+  outline: 3px solid var(--c-warning);
+  outline-offset: 2px;
+}
