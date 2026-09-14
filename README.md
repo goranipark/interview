@@ -55,6 +55,10 @@ https://goranipark.github.io/interview/
 `main` 브랜치에 푸시하면 GitHub Actions가 **자동으로 빌드해서 위 주소에 배포**합니다.
 (`.github/workflows/deploy.yml`) 따로 `build.bat`을 돌리거나 `dist`를 커밋할 필요가 없습니다.
 
+> 저장소 **Settings → Pages → Source** 가 `GitHub Actions` 로 되어 있어야 합니다.
+> 워크플로에 `enablement: true` 를 넣어 두어 대부분 자동으로 설정되지만,
+> 권한 문제로 실패하면 위 설정을 직접 바꿔 주세요.
+
 - 배포 진행 상황: 저장소 상단 **Actions** 탭에서 확인 (보통 1~2분)
 - 초록 체크(✅)가 뜨면 반영 완료. 학생들에게는 위 주소만 알려주면 됩니다.
 - 브라우저에 예전 화면이 남아 있으면 **Ctrl+F5** 로 새로고침하세요.

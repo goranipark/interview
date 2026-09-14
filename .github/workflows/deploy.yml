@@ -40,6 +40,10 @@ jobs:
 
       - name: Pages 설정
         uses: actions/configure-pages@v5
+        with:
+          # 저장소 설정에서 Pages를 아직 안 켰더라도 이 워크플로가 직접 켭니다.
+          # (이 옵션이 없으면 "Get Pages site failed ... Not Found" 오류가 납니다)
+          enablement: true
 
       - name: 빌드 결과 업로드
         uses: actions/upload-pages-artifact@v3
