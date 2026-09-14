@@ -51,6 +51,7 @@
 
 .press__body {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-4);
   align-items: center;
   background: rgba(255, 255, 255, 0.16);
@@ -71,6 +72,8 @@
 
 .press__info {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 160px;
   gap: 2px;
   min-width: 0;
 }
@@ -85,6 +88,7 @@
   line-height: 1.3;
   margin-bottom: var(--space-2);
   word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .press__dept {
@@ -93,19 +97,27 @@
 
 .press__nameform {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   gap: 4px;
   margin-bottom: var(--space-2);
 }
 
 .press__nameinput {
-  flex: 1;
+  flex: 1 1 120px;
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
+  color: var(--c-text);
+  background: #fff;
   border: none;
   border-radius: var(--radius-sm);
   padding: 6px 8px;
 }
 
 .press__namebtn {
+  flex-shrink: 0;
+  white-space: nowrap;
   background: var(--c-warning);
   border: none;
   color: var(--c-warning-text);
