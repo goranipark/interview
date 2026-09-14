@@ -71,7 +71,6 @@ export default function QuarterViewMap() {
   }
 
   useEffect(() => {
-    const node = mapRef.current;
     const directions = {
       ArrowUp: [-1, -1], w: [-1, -1],
       ArrowDown: [1, 1], s: [1, 1],
@@ -79,7 +78,8 @@ export default function QuarterViewMap() {
       ArrowRight: [1, -1], d: [1, -1],
     };
     function keyDown(event) {
-      if (event.target.closest('button, [role="button"], input, textarea, select, [contenteditable="true"]')) return;
+      if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey || talkingId) return;
+      if (event.target.closest('input, textarea, select, [role="textbox"], [contenteditable]:not([contenteditable="false"])')) return;
       const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
       if (directions[key] && !talkingId) {
         event.preventDefault();
@@ -89,7 +89,7 @@ export default function QuarterViewMap() {
         }
         heldKeys.current.add(key);
       }
-      if ((key === 'Enter' || key === ' ') && !talkingId) {
+      if ((key === 'Enter' || key === ' ') && !event.target.closest('button, [role="button"], a')) {
         event.preventDefault();
         startTalk(nearbyRef.current);
       }
@@ -111,16 +111,19 @@ export default function QuarterViewMap() {
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
-    node.addEventListener('keydown', keyDown);
+    // This listener exists only while the interview map is mounted.
+    window.addEventListener('keydown', keyDown);
     window.addEventListener('keyup', keyUp);
     window.addEventListener('blur', clear);
-    node.addEventListener('focusout', clear);
+    window.addEventListener('focusin', clear);
+    document.addEventListener('visibilitychange', clear);
     return () => {
       cancelAnimationFrame(frame);
-      node.removeEventListener('keydown', keyDown);
+      window.removeEventListener('keydown', keyDown);
       window.removeEventListener('keyup', keyUp);
       window.removeEventListener('blur', clear);
-      node.removeEventListener('focusout', clear);
+      window.removeEventListener('focusin', clear);
+      document.removeEventListener('visibilitychange', clear);
       heldKeys.current.clear();
     };
   }, [talkingId]);
@@ -178,7 +181,7 @@ export default function QuarterViewMap() {
 
       <div className="town-map" tabIndex="0" ref={mapRef}
         onPointerDown={(event) => { if (!event.target.closest('button, [role="button"]')) mapRef.current.focus(); }}>
-        <div className="town-map__caption"><span>우리 동네 탐험</span><small>지도 선택 후 방향키 · WASD 이동 / 가까이에서 Enter 대화</small></div>
+        <div className="town-map__caption"><span>우리 동네 탐험</span><small>방향키 · WASD로 바로 이동 / 가까이에서 Enter 대화</small></div>
         <div className="town-viewport" ref={viewportRef}><VoxelScene player={player} npcs={npcs} nearby={nearby} walking={walking}
           onNpcClick={handleNpcClick} completed={(npc) => isCompleted(state, npc.institution.id)} /></div>
 
