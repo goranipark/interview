@@ -35,5 +35,9 @@ echo.
 echo [2/2] 앱을 실행합니다. 브라우저에서 http://localhost:5173 으로 접속하세요.
 echo      (종료하려면 이 창에서 Ctrl+C 를 누르거나 창을 닫으세요.)
 echo.
-call npm run dev
+if exist "node_modules\vite\bin\vite.js" (
+  node "node_modules\vite\bin\vite.js"
+) else (
+  call npm run dev
+)
 pause

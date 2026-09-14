@@ -33,7 +33,11 @@ if not exist "node_modules" (
 
 echo.
 echo [2/2] 배포용 파일을 만듭니다...
-call npm run build
+if exist "node_modules\vite\bin\vite.js" (
+  node "node_modules\vite\bin\vite.js" build
+) else (
+  call npm run build
+)
 if errorlevel 1 (
   echo.
   echo [!] 만들기에 실패했습니다.
