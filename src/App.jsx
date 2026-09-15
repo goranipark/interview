@@ -20,7 +20,12 @@ export default function App() {
         {tab === 'report' && <ReportTab />}
       </main>
 
-      <footer className="footer">이 자료는 교육용으로 제작되었습니다.</footer>
+      <footer className="footer">
+        <p className="footer__note">
+          이 자료는 교육용으로 제작되었습니다. 수업 목적으로 자유롭게 쓰고 고쳐 쓸 수 있습니다.
+        </p>
+        <p className="footer__credit">© 2026 goranipark</p>
+      </footer>
     </div>
   );
 }

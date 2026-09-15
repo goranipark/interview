@@ -165,6 +165,17 @@
   padding: var(--space-4);
 }
 
+.footer p {
+  margin: 0;
+}
+
+/* 제작 표기는 안내문보다 한 칸 아래에 둡니다. 색을 더 흐리게 하면
+   명도 대비(WCAG AA)가 깨지므로 간격으로만 구분합니다.
+   (위 `.footer p` 보다 명시도가 높아야 여백이 먹습니다) */
+.footer .footer__credit {
+  margin-top: var(--space-2);
+}
+
 @media (max-width: 700px) {
   .header__title {
     font-size: var(--fs-h2);
