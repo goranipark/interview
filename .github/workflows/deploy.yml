@@ -35,6 +35,11 @@ jobs:
       - name: 패키지 설치
         run: npm ci
 
+      # 면담 데이터를 잘못 고치면(추천 질문이 매칭 안 되거나 퀴즈 해설이
+      # 없는 답변을 가리키면) 여기서 걸러지고 배포가 중단됩니다.
+      - name: 데이터·지도 검사
+        run: npm test
+
       - name: 빌드 (단일 HTML 파일 생성)
         run: npm run build
 
