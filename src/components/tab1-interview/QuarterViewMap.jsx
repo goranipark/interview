@@ -4,7 +4,7 @@ import { isCompleted, useAppState } from '../../state/useAppState.jsx';
 import ChatPanel from './ChatPanel.jsx';
 
 import VoxelScene from './VoxelScene.jsx';
-import { PLACES, SPAWN, canTalk, distance, movePlayer, project } from './townWorld.js';
+import { PLACES, SPAWN, canTalk, distance, movePlayer } from './townWorld.js';
 
 const STEP = 9;
 
@@ -26,7 +26,6 @@ export default function QuarterViewMap() {
   const [hint, setHint] = useState('NPC 가까이 가면 대화할 수 있어요');
   const walkingTimer = useRef(null);
   const mapRef = useRef(null);
-  const viewportRef = useRef(null);
   const dialogRef = useRef(null);
   const heldKeys = useRef(new Set());
   // 방향 패드로 누르고 있는 방향. 손가락이 버튼 밖에서 떨어져도
@@ -51,26 +50,6 @@ export default function QuarterViewMap() {
   const talkingInstitution = talkingId
     ? institutions.find((institution) => institution.id === talkingId)
     : null;
-
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    function follow() {
-      const scene = viewport.querySelector('svg');
-      const officer = nearbyRef.current;
-      const spot = project(player);
-      // 담당관이 가까이 있으면 둘의 가운데를 비춰 준다.
-      const target = officer ? project(officer.npc) : spot;
-      const centerX = (spot.x + target.x) / 2;
-      const centerY = (spot.y + target.y) / 2;
-      // 화면이 낮으면 지도를 세로로도 잘라 보여주므로 위아래로도 따라간다.
-      viewport.scrollLeft = centerX * scene.clientWidth / 1040 - viewport.clientWidth / 2;
-      viewport.scrollTop = centerY * scene.clientHeight / 690 - viewport.clientHeight / 2;
-    }
-    follow();
-    const observer = new ResizeObserver(follow);
-    observer.observe(viewport);
-    return () => observer.disconnect();
-  }, [player]);
 
   function move(dx, dy) {
     if (talkingId) return;
@@ -235,7 +214,7 @@ export default function QuarterViewMap() {
       <div className="town-map" tabIndex="0" ref={mapRef}
         onPointerDown={(event) => { if (!event.target.closest('button, [role="button"]')) mapRef.current.focus(); }}>
         <div className="town-map__caption"><span>우리 동네 탐험</span><small>방향키 · WASD로 바로 이동 / 가까이에서 Enter 대화</small></div>
-        <div className="town-viewport" ref={viewportRef}><VoxelScene player={player} npcs={npcs} nearby={nearby} walking={walking}
+        <div className="town-viewport"><VoxelScene player={player} npcs={npcs} nearby={nearby} walking={walking}
           onNpcClick={handleNpcClick} completed={(npc) => isCompleted(state, npc.institution.id)} /></div>
 
         <div className="town-map__controls">

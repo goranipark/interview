@@ -74,20 +74,24 @@
 .town-map__caption { position: relative; padding: 22px 24px 0; display: flex; flex-direction: column; gap: 5px; pointer-events: none; }
 .town-map__caption span { font-size: 17px; font-weight: 900; color: #3d6257; }
 .town-map__caption small { font-size: 12px; color: #57756c; }
-/* 지도는 1040x690 으로 그려 두고, 화면에 안 들어가면 창처럼 잘라서 보여줍니다.
-   잘린 부분은 카메라(follow)가 학생을 따라다니므로 직접 스크롤할 일이 없습니다.
-   이렇게 하지 않으면 크롬북(1366x657)에서 지도만 1065px 이 되어
-   지도와 방향 패드를 동시에 볼 수 없습니다. */
+/* 지도 전체가 한 화면에 들어가도록 줄여서 보여줍니다.
+   지도 안에서 따로 스크롤하지 않으므로 페이지 스크롤과 겹치지 않습니다. */
 .town-viewport {
-  overflow: auto;
-  scrollbar-width: thin;
-  scroll-padding-inline: 60px;
-  overscroll-behavior: contain;
-  min-height: 240px;
-  max-height: calc(100vh - 300px);
-  max-height: calc(100svh - 300px); /* 주소창이 접히는 휴대폰 기준 */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
-.town-scene { display: block; width: 100%; min-width: 1040px; height: auto; aspect-ratio: 1040 / 690; }
+.town-scene {
+  display: block;
+  width: 100%;
+  /* 세로도 화면 안에 들어가야 하므로, 쓸 수 있는 높이를 너비로 바꿔 상한을 겁니다.
+     1040x690 비율이라 높이 h 는 너비 h*1040/690 에 해당합니다.
+     창이 아주 낮을 때 값이 음수가 되지 않도록 max() 로 바닥을 둡니다. */
+  max-width: calc(max(220px, 100vh - 300px) * 1040 / 690);
+  max-width: calc(max(220px, 100svh - 300px) * 1040 / 690); /* 주소창이 접히는 휴대폰 기준 */
+  height: auto;
+  aspect-ratio: 1040 / 690;
+}
 .town-map__controls { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 24px; border-top: 1px solid #b8cebd; background: #e4efdf; }
 .town-officer { cursor: pointer; outline: none; }
 .town-officer:focus-visible { filter: drop-shadow(0 0 4px #db9a18); }
