@@ -24,12 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 소스 내려받기
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Node.js 준비
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: 패키지 설치
@@ -39,14 +39,14 @@ jobs:
         run: npm run build
 
       - name: Pages 설정
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
         with:
           # 저장소 설정에서 Pages를 아직 안 켰더라도 이 워크플로가 직접 켭니다.
           # (이 옵션이 없으면 "Get Pages site failed ... Not Found" 오류가 납니다)
           enablement: true
 
       - name: 빌드 결과 업로드
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -59,4 +59,4 @@ jobs:
     steps:
       - name: Pages에 배포
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
