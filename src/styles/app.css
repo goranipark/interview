@@ -176,6 +176,19 @@
   margin-top: var(--space-2);
 }
 
+/* 손가락으로 누를 수 있는 기기에서는 누를 곳을 권장 최소 크기(44px)까지 키웁니다.
+   pointer 가 아니라 any-pointer 를 보는 이유: 터치스크린 크롬북은 주 입력이
+   터치패드라 pointer:coarse 에 걸리지 않지만, 화면을 손으로도 누르기 때문입니다. */
+@media (any-pointer: coarse) {
+  .header__namebtn,
+  .header__nameinput {
+    min-height: 44px;
+  }
+  .tab {
+    min-height: 44px;
+  }
+}
+
 @media (max-width: 700px) {
   .header__title {
     font-size: var(--fs-h2);

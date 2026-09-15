@@ -74,7 +74,19 @@
 .town-map__caption { position: relative; padding: 22px 24px 0; display: flex; flex-direction: column; gap: 5px; pointer-events: none; }
 .town-map__caption span { font-size: 17px; font-weight: 900; color: #3d6257; }
 .town-map__caption small { font-size: 12px; color: #57756c; }
-.town-viewport { overflow-x: auto; scrollbar-width: thin; scroll-padding-inline: 60px; }
+/* 지도는 1040x690 으로 그려 두고, 화면에 안 들어가면 창처럼 잘라서 보여줍니다.
+   잘린 부분은 카메라(follow)가 학생을 따라다니므로 직접 스크롤할 일이 없습니다.
+   이렇게 하지 않으면 크롬북(1366x657)에서 지도만 1065px 이 되어
+   지도와 방향 패드를 동시에 볼 수 없습니다. */
+.town-viewport {
+  overflow: auto;
+  scrollbar-width: thin;
+  scroll-padding-inline: 60px;
+  overscroll-behavior: contain;
+  min-height: 240px;
+  max-height: calc(100vh - 300px);
+  max-height: calc(100svh - 300px); /* 주소창이 접히는 휴대폰 기준 */
+}
 .town-scene { display: block; width: 100%; min-width: 1040px; height: auto; aspect-ratio: 1040 / 690; }
 .town-map__controls { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 24px; border-top: 1px solid #b8cebd; background: #e4efdf; }
 .town-officer { cursor: pointer; outline: none; }
@@ -127,8 +139,9 @@
   position: relative;
   flex-shrink: 0;
   display: grid;
-  grid-template: repeat(2, 42px) / repeat(3, 42px);
-  gap: 4px;
+  /* 손가락으로 누르는 버튼이라 권장 최소 크기(44px)보다 크게 잡습니다. */
+  grid-template: repeat(2, 48px) / repeat(3, 48px);
+  gap: 6px;
 }
 
 .move-pad button {
@@ -139,9 +152,12 @@
   background: rgba(39,56,83,.85);
   color: #fff;
   box-shadow: 0 4px 0 rgba(28,39,60,.55);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 900;
-  touch-action: manipulation;
+  /* 꾹 눌러 걷는 동안 화면이 딸려 스크롤되거나 글자가 선택되지 않도록 합니다. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .move-pad button:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(28,39,60,.55); }
 .move-pad__up { grid-area: 1 / 2; }

@@ -8,6 +8,16 @@ import { PLACES, SPAWN, canTalk, distance, movePlayer, project } from './townWor
 
 const STEP = 9;
 
+// 방향 패드는 누르고 있는 동안 계속 걷습니다. 한 번에 9픽셀씩만 가면
+// 지도를 가로지르는 데 서른 번 넘게 눌러야 해서 터치 기기에서 못 씁니다.
+// key 값은 키보드 이동과 같은 목록을 쓰므로 대각선 합성도 그대로 됩니다.
+const MOVE_BUTTONS = [
+  { key: 'ArrowUp', className: 'move-pad__up', label: '위로 이동', arrow: '▲', step: [-1, -1] },
+  { key: 'ArrowLeft', className: 'move-pad__left', label: '왼쪽으로 이동', arrow: '◀', step: [-1, 1] },
+  { key: 'ArrowDown', className: 'move-pad__down', label: '아래로 이동', arrow: '▼', step: [1, 1] },
+  { key: 'ArrowRight', className: 'move-pad__right', label: '오른쪽으로 이동', arrow: '▶', step: [1, -1] },
+];
+
 export default function QuarterViewMap() {
   const { state } = useAppState();
   const [player, setPlayer] = useState(SPAWN);
@@ -19,6 +29,9 @@ export default function QuarterViewMap() {
   const viewportRef = useRef(null);
   const dialogRef = useRef(null);
   const heldKeys = useRef(new Set());
+  // 방향 패드로 누르고 있는 방향. 손가락이 버튼 밖에서 떨어져도
+  // 캐릭터가 계속 걷지 않도록 따로 모아 두고 한 번에 놓습니다.
+  const padKeys = useRef(new Set());
 
   const npcs = useMemo(
     () => institutions.map((institution, index) => ({ ...PLACES[index], institution })),
@@ -43,10 +56,15 @@ export default function QuarterViewMap() {
     const viewport = viewportRef.current;
     function follow() {
       const scene = viewport.querySelector('svg');
-      const playerX = project(player).x;
       const officer = nearbyRef.current;
-      const centerX = officer ? (playerX + project(officer.npc).x) / 2 : playerX;
+      const spot = project(player);
+      // 담당관이 가까이 있으면 둘의 가운데를 비춰 준다.
+      const target = officer ? project(officer.npc) : spot;
+      const centerX = (spot.x + target.x) / 2;
+      const centerY = (spot.y + target.y) / 2;
+      // 화면이 낮으면 지도를 세로로도 잘라 보여주므로 위아래로도 따라간다.
       viewport.scrollLeft = centerX * scene.clientWidth / 1040 - viewport.clientWidth / 2;
+      viewport.scrollTop = centerY * scene.clientHeight / 690 - viewport.clientHeight / 2;
     }
     follow();
     const observer = new ResizeObserver(follow);
@@ -60,6 +78,25 @@ export default function QuarterViewMap() {
     setWalking(true);
     window.clearTimeout(walkingTimer.current);
     walkingTimer.current = window.setTimeout(() => { setWalking(false); walkingTimer.current = null; }, 180);
+  }
+
+  // 키보드 이동과 같은 heldKeys 를 쓰므로 걷는 동작·대각선 처리가 한 곳에 모입니다.
+  function holdStart(event, key) {
+    if (talkingId) return;
+    padKeys.current.add(key);
+    heldKeys.current.add(key);
+    // 손가락이 버튼 밖으로 조금 밀려나도 계속 걷게 합니다.
+    // 붙잡기에 실패해도 걷기는 그대로 되어야 하므로 이동 등록 뒤에 시도합니다.
+    try {
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+    } catch {
+      /* 이 브라우저가 못 잡아도 window 의 pointerup 으로 멈춥니다 */
+    }
+  }
+
+  function holdEnd(key) {
+    padKeys.current.delete(key);
+    heldKeys.current.delete(key);
   }
 
   function startTalk(npc = nearby) {
@@ -95,7 +132,14 @@ export default function QuarterViewMap() {
       }
     }
     function keyUp(event) { heldKeys.current.delete(event.key.length === 1 ? event.key.toLowerCase() : event.key); }
-    function clear() { heldKeys.current.clear(); setWalking(false); }
+    function clear(event) {
+      // 방향 패드를 누르면 그 버튼이 포커스를 받아 focusin 이 뜨는데,
+      // 그때 눌린 방향까지 지우면 꾹 눌러도 한 발짝도 걷지 못한다.
+      if (event?.type === 'focusin' && event.target?.closest?.('.move-pad')) return;
+      heldKeys.current.clear();
+      padKeys.current.clear();
+      setWalking(false);
+    }
     let frame;
     let previous = 0;
     function tick(time) {
@@ -110,8 +154,15 @@ export default function QuarterViewMap() {
       } else if (!walkingTimer.current) setWalking(false);
       frame = requestAnimationFrame(tick);
     }
+    // 버튼 밖에서 손을 떼더라도 방향 패드로 누르던 방향은 반드시 놓아 준다.
+    function releasePad() {
+      padKeys.current.forEach((key) => heldKeys.current.delete(key));
+      padKeys.current.clear();
+    }
     frame = requestAnimationFrame(tick);
     // This listener exists only while the interview map is mounted.
+    window.addEventListener('pointerup', releasePad);
+    window.addEventListener('pointercancel', releasePad);
     window.addEventListener('keydown', keyDown);
     window.addEventListener('keyup', keyUp);
     window.addEventListener('blur', clear);
@@ -119,6 +170,8 @@ export default function QuarterViewMap() {
     document.addEventListener('visibilitychange', clear);
     return () => {
       cancelAnimationFrame(frame);
+      window.removeEventListener('pointerup', releasePad);
+      window.removeEventListener('pointercancel', releasePad);
       window.removeEventListener('keydown', keyDown);
       window.removeEventListener('keyup', keyUp);
       window.removeEventListener('blur', clear);
@@ -197,10 +250,21 @@ export default function QuarterViewMap() {
         </div>
 
         <div className="move-pad" aria-label="캐릭터 이동 버튼">
-          <button className="move-pad__up" onClick={() => move(-STEP, -STEP)} aria-label="위로 이동">▲</button>
-          <button className="move-pad__left" onClick={() => move(-STEP, STEP)} aria-label="왼쪽으로 이동">◀</button>
-          <button className="move-pad__down" onClick={() => move(STEP, STEP)} aria-label="아래로 이동">▼</button>
-          <button className="move-pad__right" onClick={() => move(STEP, -STEP)} aria-label="오른쪽으로 이동">▶</button>
+          {MOVE_BUTTONS.map(({ key, className, label, arrow, step }) => (
+            <button
+              key={key}
+              className={className}
+              onPointerDown={(event) => holdStart(event, key)}
+              onPointerUp={() => holdEnd(key)}
+              onPointerCancel={() => holdEnd(key)}
+              onPointerLeave={() => holdEnd(key)}
+              // 짧게 톡 누르면 한 칸, 키보드 Enter·Space 로도 움직입니다.
+              onClick={() => move(step[0] * STEP, step[1] * STEP)}
+              aria-label={label}
+            >
+              {arrow}
+            </button>
+          ))}
         </div>
         </div>
       </div>
